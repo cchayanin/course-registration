@@ -134,6 +134,6 @@ sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/node,dotenv,react,vscode
 ## sqlite
-*.sqlite3/
-*.sqlite/
-*.db/
+*.sqlite3
+*.sqlite
+*.db
