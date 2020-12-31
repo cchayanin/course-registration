@@ -129,11 +129,11 @@ thumb
 sketch
 
 ### vscode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/node,dotenv,react,vscode
+## sqlite
+*.sqlite3/
+*.sqlite/
+*.db/
