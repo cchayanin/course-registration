@@ -50,6 +50,7 @@ function Content(props) {
 
 			<components.modal formItem={formItem} form={form} CRUD={CRUD} />
 			<components.table
+				fetchRecord={CRUD.fetchRecord}
 				dataSource={dataSource}
 				columns={columns}
 				axiosPath={axiosPath}

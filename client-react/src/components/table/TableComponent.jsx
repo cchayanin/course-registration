@@ -1,7 +1,12 @@
 import { Table } from 'antd'
+import { useEffect } from 'react'
 
 function TableComponent(props) {
 	const { Column } = Table
+
+	useEffect(() => {
+		props.fetchRecord()
+	}, [props])
 
 	return (
 		<Table bordered dataSource={props.dataSource} rowKey="id">
@@ -13,7 +18,6 @@ function TableComponent(props) {
 						key={column.key}
 						render={column.render}
 						align={column.align}
-						axiosPath={props.axiosPath}
 					/>
 				)
 			})}
