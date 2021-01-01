@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			type: {
 				type: DataTypes.STRING(1),
-				primaryKey: true,
 			},
 			description: {
 				type: DataTypes.STRING,
