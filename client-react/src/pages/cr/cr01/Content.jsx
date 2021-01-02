@@ -78,7 +78,7 @@ function Content(props) {
 			</Row>
 
 			<components.modal formItem={formItem} form={form} CRUD={CRUD} />
-			<Table bordered dataSource={dataSource} columns={columns} />
+			<Table bordered dataSource={dataSource} columns={columns} rowKey="id" />
 		</>
 	)
 }
