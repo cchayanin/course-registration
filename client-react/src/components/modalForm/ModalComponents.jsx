@@ -14,12 +14,29 @@ function ModalComponents(props) {
 	const onCancel = () => {
 		props.toggleModal(props.visible)
 		props.toggleEdit(false)
+		props.passRecordToForm({})
 		props.form.resetFields()
+	}
+
+	const onOk = () => {
+		props.form
+			.validateFields()
+			.then(() =>
+				props.isEdit
+					? props.CRUD.updateRecord(props.form.getFieldValue('id'))
+					: props.CRUD.createRecord(),
+			)
+			.catch((err) => {
+				console.error(err)
+			})
+
+		props.toggleEdit(false)
 	}
 
 	const okText = () => {
 		return props.isEdit ? 'แก้ไข' : 'สร้าง'
 	}
+
 	return (
 		<Modal
 			visible={props.visible}
@@ -28,14 +45,10 @@ function ModalComponents(props) {
 			okText={okText()}
 			cancelText="ยกเลิก"
 			onCancel={() => onCancel()}
-			onOk={() =>
-				props.isEdit
-					? props.CRUD.updateRecord(props.form.getFieldValue('id'))
-					: props.CRUD.createRecord()
-			}
+			onOk={onOk}
 		>
 			<Form form={props.form} layout="vertical">
-				<FormItem formItem={props.formItem} />
+				<FormItem formItem={props.formItem} isEdit={props.isEdit} />
 			</Form>
 		</Modal>
 	)
@@ -56,6 +69,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		toggleEdit: (value) => {
 			dispatch({ type: 'TOGGLE_EDIT', payload: value })
+		},
+		passRecordToForm: (value) => {
+			dispatch({ type: 'PASS_RECORD', payload: value })
 		},
 	}
 }

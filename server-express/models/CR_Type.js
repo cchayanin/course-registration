@@ -15,5 +15,11 @@ module.exports = (sequelize, DataTypes) => {
 		},
 	)
 
+	CR_Type.associate = (models) => {
+		CR_Type.hasMany(models.CR_Course, {
+			foreignKey: 'type_id',
+		})
+	}
+
 	return CR_Type
 }

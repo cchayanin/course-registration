@@ -2,9 +2,6 @@ module.exports = (sequelize, DataTypes) => {
 	const CR_Course = sequelize.define(
 		'CR_Course',
 		{
-			type: {
-				type: DataTypes.STRING(1),
-			},
 			round: {
 				type: DataTypes.INTEGER,
 			},
@@ -24,5 +21,12 @@ module.exports = (sequelize, DataTypes) => {
 		},
 	)
 
+	CR_Course.associate = (models) => {
+		CR_Course.belongsTo(models.CR_Type, {
+			foreignKey: 'type_id',
+			onDelete: 'RESTRICT',
+			onUpdate: 'RESTRICT',
+		})
+	}
 	return CR_Course
 }

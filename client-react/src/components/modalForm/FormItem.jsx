@@ -8,8 +8,9 @@ function FormItem(props) {
 						name={formItem.name}
 						label={formItem.label}
 						key={formItem.key}
+						rules={formItem.rules}
 					>
-						<Input />
+						<Input disabled={formItem.disabled && props.isEdit} />
 					</Form.Item>
 				)
 			})}

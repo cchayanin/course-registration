@@ -1,5 +1,7 @@
 import { Button } from 'antd'
 import { connect } from 'react-redux'
+import { EditOutlined } from '@ant-design/icons'
+import './buttonEdit.css'
 
 function ButtonEdit(props) {
 	const onClick = () => {
@@ -9,7 +11,7 @@ function ButtonEdit(props) {
 	}
 
 	return (
-		<Button onClick={onClick} danger>
+		<Button className="button-edit" icon={<EditOutlined />} onClick={onClick}>
 			แก้ไข
 		</Button>
 	)
