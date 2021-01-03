@@ -10,7 +10,15 @@ import { PlusOutlined } from '@ant-design/icons'
 function Content(props) {
 	const [form] = Form.useForm()
 	const [dataSource, setDataSource] = useState([])
-	const axiosPath = '/cr/types'
+	const [select, setSelect] = useState([])
+	const axiosPath = '/cr/courses'
+	const selectPath = '/cr/types'
+
+	const fetchOptions = async () => {
+		const httpResponse = await axios.get(selectPath)
+		console.log(httpResponse.data)
+		setSelect(httpResponse.data)
+	}
 
 	const columns = [
 		...fields,
@@ -40,13 +48,28 @@ function Content(props) {
 		fetchRecord()
 	}, [])
 
+	useEffect(() => {
+		fetchOptions()
+	}, [])
+
 	const fetchRecord = async () => {
 		const httpResponse = await axios.get(axiosPath)
 		setDataSource(httpResponse.data)
 	}
 
 	const createRecord = async () => {
-		await axios.post(axiosPath, form.getFieldsValue())
+		console.log([...select])
+		// console.log(form.getFieldValue('type_id'))
+		// console.log(
+		// 	select.find((item) => (item.id = form.getFieldValue('type_id'))),
+		// )
+		await axios.post(axiosPath, {
+			...form.getFieldsValue(),
+			name: `${
+				select.find((item) => (item.id = form.getFieldValue('type_id')))
+					.description
+			} รุ่นที่ ${form.getFieldValue('round')}`,
+		})
 		form.resetFields()
 		props.toggleModal(props.visible)
 		fetchRecord()
@@ -77,7 +100,12 @@ function Content(props) {
 				</Button>
 			</Row>
 
-			<components.modal formItems={formItems} form={form} CRUD={CRUD} />
+			<components.modal
+				formItems={formItems}
+				form={form}
+				CRUD={CRUD}
+				options={select}
+			/>
 			<Table bordered dataSource={dataSource} columns={columns} rowKey="id" />
 		</>
 	)

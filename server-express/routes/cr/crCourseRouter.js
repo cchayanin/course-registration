@@ -12,7 +12,7 @@ const {
 
 router.get('/', getAllRecord)
 router.post('/', createRecord)
-router.patch('/:type', updateRecord)
-router.delete('/:type', deleteRecord)
+router.patch('/:id', updateRecord)
+router.delete('/:id', deleteRecord)
 
 module.exports = router

@@ -48,7 +48,11 @@ function ModalComponents(props) {
 			onOk={onOk}
 		>
 			<Form form={props.form} layout="vertical">
-				<FormItem formItem={props.formItem} isEdit={props.isEdit} />
+				<FormItem
+					formItems={props.formItems}
+					options={props.options}
+					isEdit={props.isEdit}
+				/>
 			</Form>
 		</Modal>
 	)
