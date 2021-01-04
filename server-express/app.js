@@ -15,6 +15,9 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use('/api', router)
 
-db.sequelize.sync({ force: false }).then(() => {
-	app.listen(8000)
-})
+db.sequelize
+	.sync({ force: false })
+	.then(() => {
+		app.listen(8000)
+	})
+	.catch((err) => console.error(err))

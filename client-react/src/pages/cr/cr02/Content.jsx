@@ -6,6 +6,7 @@ import { formItems } from './formItems'
 import { Button, Form, Row, Table } from 'antd'
 import { connect } from 'react-redux'
 import { PlusOutlined } from '@ant-design/icons'
+import moment from 'moment'
 
 function Content(props) {
 	const [form] = Form.useForm()
@@ -13,10 +14,10 @@ function Content(props) {
 	const [select, setSelect] = useState([])
 	const axiosPath = '/cr/courses'
 	const selectPath = '/cr/types'
+	const dateFormat = 'YYYY/MM/DD'
 
 	const fetchOptions = async () => {
 		const httpResponse = await axios.get(selectPath)
-		console.log(httpResponse.data)
 		setSelect(httpResponse.data)
 	}
 
@@ -28,7 +29,17 @@ function Content(props) {
 			key: 'edit',
 			align: 'center',
 			render: (record) => {
-				return <components.buttonEdit record={record} />
+				return (
+					<components.buttonEdit
+						record={{
+							...record,
+							start_end: [
+								record.start_date ? moment(record.start_date) : null,
+								record.end_date ? moment(record.end_date) : null,
+							],
+						}}
+					/>
+				)
 			},
 		},
 		{
@@ -58,17 +69,20 @@ function Content(props) {
 	}
 
 	const createRecord = async () => {
-		console.log([...select])
-		// console.log(form.getFieldValue('type_id'))
-		// console.log(
-		// 	select.find((item) => (item.id = form.getFieldValue('type_id'))),
-		// )
 		await axios.post(axiosPath, {
 			...form.getFieldsValue(),
+			//* auto naming course
 			name: `${
-				select.find((item) => (item.id = form.getFieldValue('type_id')))
+				select.find((item) => item.id === form.getFieldValue('type_id'))
 					.description
 			} รุ่นที่ ${form.getFieldValue('round')}`,
+			//* start-end
+			start_date: form.getFieldValue('start_end')[0]
+				? form.getFieldValue('start_end')[0].format(dateFormat)
+				: null,
+			end_date: form.getFieldValue('start_end')[1]
+				? form.getFieldValue('start_end')[1].format(dateFormat)
+				: null,
 		})
 		form.resetFields()
 		props.toggleModal(props.visible)

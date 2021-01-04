@@ -5,6 +5,7 @@ export const formItems = [
 		label: 'ประเภท',
 		inputType: 'select',
 		editDisabled: true,
+		rules: [{ required: true, message: 'ต้องระบุประเภท' }],
 	},
 	{
 		key: 2,
@@ -12,6 +13,7 @@ export const formItems = [
 		label: 'รุ่นที่',
 		inputType: 'number',
 		editDisabled: true,
+		rules: [{ required: true, message: 'ต้องระบุรุ่นที่' }],
 	},
 	{
 		key: 3,

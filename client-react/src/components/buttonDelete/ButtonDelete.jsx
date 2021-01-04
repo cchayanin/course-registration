@@ -1,15 +1,23 @@
-import { Button } from 'antd'
+import { Button, notification, Popconfirm } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 
 function ButtonDelete(props) {
-	const onClick = () => {
+	const onConfirm = () => {
 		props.deleteRecord(props.id)
+		notification.success({ message: 'Record is deleted.' })
 	}
 
 	return (
-		<Button icon={<DeleteOutlined />} onClick={onClick} danger>
-			ลบ
-		</Button>
+		<Popconfirm
+			title="Confirm delete?"
+			onConfirm={onConfirm}
+			okText="Yes"
+			cancelText="No"
+		>
+			<Button icon={<DeleteOutlined />} danger>
+				ลบ
+			</Button>
+		</Popconfirm>
 	)
 }
 

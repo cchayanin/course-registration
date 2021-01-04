@@ -1,11 +1,14 @@
 import { Form, Input, InputNumber, DatePicker, Select } from 'antd'
 function FormItem(props) {
+	const dateFormat = 'YYYY/MM/DD'
 	const { RangePicker } = DatePicker
-	const options = [...props.options]?.map((option) => (
-		<Select.Option value={option.id} key={option.id}>
-			{option.description}
-		</Select.Option>
-	))
+	const options = props.options
+		? [...props.options].map((option) => (
+				<Select.Option value={option.id} key={option.id}>
+					{option.description}
+				</Select.Option>
+		  ))
+		: null
 	return (
 		<>
 			{props.formItems.map((item) => {
@@ -31,7 +34,10 @@ function FormItem(props) {
 								rules={item.rules}
 								key={item.key}
 							>
-								<InputNumber disabled={item.editDisabled && props.isEdit} />
+								<InputNumber
+									min={1}
+									disabled={item.editDisabled && props.isEdit}
+								/>
 							</Form.Item>
 						)
 						break
@@ -43,7 +49,10 @@ function FormItem(props) {
 								rules={item.rules}
 								key={item.key}
 							>
-								<RangePicker disabled={item.editDisabled && props.isEdit} />
+								<RangePicker
+									format={dateFormat}
+									disabled={item.editDisabled && props.isEdit}
+								/>
 							</Form.Item>
 						)
 						break

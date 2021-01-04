@@ -1,4 +1,4 @@
-import { Modal, Form } from 'antd'
+import { Modal, Form, notification } from 'antd'
 import FormItem from './FormItem'
 import { connect } from 'react-redux'
 import { useEffect } from 'react'
@@ -6,7 +6,9 @@ import { useEffect } from 'react'
 function ModalComponents(props) {
 	useEffect(() => {
 		const initialEdit = () => {
-			props.form.setFieldsValue({ ...props.record })
+			props.form.setFieldsValue({
+				...props.record,
+			})
 		}
 		initialEdit()
 	}, [props.form, props.record])
@@ -21,13 +23,27 @@ function ModalComponents(props) {
 	const onOk = () => {
 		props.form
 			.validateFields()
-			.then(() =>
-				props.isEdit
-					? props.CRUD.updateRecord(props.form.getFieldValue('id'))
-					: props.CRUD.createRecord(),
-			)
+			.then(() => {
+				if (props.isEdit) {
+					props.CRUD.updateRecord(props.form.getFieldValue('id'))
+					notification.success({
+						message: 'Record is updated.',
+						placement: 'bottomRight',
+					})
+				} else {
+					props.CRUD.createRecord()
+					notification.success({
+						message: 'Record is created.',
+						placement: 'bottomRight',
+					})
+				}
+			})
 			.catch((err) => {
 				console.error(err)
+				notification.error({
+					message: 'Create/Update failed.',
+					placement: 'bottomRight',
+				})
 			})
 
 		props.toggleEdit(false)
